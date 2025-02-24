@@ -16,7 +16,6 @@ async function login(req: Request, res: Response) {
 
   try {
     const user = await userRepo.getUserByEmail(email);
-    console.log("🚀 ~ login ~ user:", user);
     if (!user) {
       res
         .status(400)
@@ -40,7 +39,7 @@ async function login(req: Request, res: Response) {
 
     res
       .status(200)
-      .json({ message: "User successfully logged in!", refreshToken });
+      .json({ message: "User successfully logged in!", accessToken });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -75,7 +74,7 @@ async function register(req: Request, res: Response) {
 
     res.status(201).json({
       message: "User successfully created!",
-      refreshToken,
+      accessToken,
     });
   } catch (error) {
     res.status(500).json({ error });
@@ -83,8 +82,6 @@ async function register(req: Request, res: Response) {
 }
 
 async function logout(req: Request, res: Response) {
-  const { refreshToken } = req.body;
-  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
   res.clearCookie("access_token"); // Clear access token
   res.clearCookie("refresh_token"); // Clear refresh token
@@ -99,10 +96,10 @@ async function verifyToken(req: Request, res: Response) {
     return;
   }
 
-  // if (!refreshTokens.includes(refreshToken)) {
-  //   res.status(403).json({ message: "Refresh token is not valid!" });
-  //   return;
-  // }
+  if (!refreshTokens.includes(refreshToken)) {
+    res.status(403).json({ message: "Refresh token is not valid!" });
+    return;
+  }
 
   try {
     const payload = jwt.verify(
@@ -117,10 +114,11 @@ async function verifyToken(req: Request, res: Response) {
 
     // update cookie with new access token
     setAccessTokenInCookie(res, newAccessToken);
+    setRefreshTokenInCookie(res, newRefreshToken);
 
     res.status(200).json({
       message: "Access token refreshed",
-      refreshToken: newRefreshToken,
+      accessToken: newAccessToken,
     });
   } catch (err) {
     throw err;

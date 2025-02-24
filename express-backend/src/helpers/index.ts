@@ -10,7 +10,7 @@ export interface Payload extends JwtPayload {
 
 export function generateAccessToken(payload: Payload | any) {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {
-    expiresIn: "3m", // for test 3 min, 30 min
+    expiresIn: "30m", // 30 min
   });
 }
 
@@ -21,9 +21,9 @@ export function generateRefreshToken(payload: Payload | any) {
 export function setAccessTokenInCookie(res: Response, token: string) {
   const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
+    secure: process.env.NODE_ENV === "production", // only set cookies over HTTPS in production
     maxAge: 1800000, // (30 min)
-    sameSite: "strict" as const, // Prevents the browser from sending cookies on cross-origin requests
+    sameSite: "strict" as const, // prevents the browser from sending cookies on cross-origin requests
   };
 
   res.cookie("access_token", token, cookieOptions);
@@ -32,7 +32,7 @@ export function setAccessTokenInCookie(res: Response, token: string) {
 export function setRefreshTokenInCookie(res: Response, token: string) {
   const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Set as secure in production
+    secure: process.env.NODE_ENV === "production", // set as secure in production
     maxAge: 604800000, // 7 days
     sameSite: "strict" as const,
   };

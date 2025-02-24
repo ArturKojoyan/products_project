@@ -4,18 +4,17 @@ import userRepo from "../repositories/user.repository";
 
 async function getAllUsers(_req: Request, res: Response) {
   const users = await userService.getUsers();
-  res.sendStatus(200).json(users);
+  res.status(200).json(users);
 }
 
 async function getUserById(req: Request, res: Response) {
   const { userId } = req.params;
   if (!userId) {
-    res.sendStatus(400).json("userId is not provided!");
+    res.status(400).json("userId is not provided!");
     return;
   }
   const user = await userRepo.getUserById(+userId);
-  res.sendStatus(200).json(user);
-  return;
+  res.status(200).json(user);
 }
 
 async function updateUser(req: Request, res: Response) {
@@ -36,7 +35,7 @@ async function updateUser(req: Request, res: Response) {
       .status(200)
       .json({ message: "User data successfully updated!", updatedUser });
   } catch (error) {
-    res.sendStatus(500).json({ error });
+    res.status(500).json({ error });
   }
 }
 

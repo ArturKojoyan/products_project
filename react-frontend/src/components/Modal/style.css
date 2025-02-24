@@ -1,0 +1,12 @@
+.block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.close_btn {
+  margin: 0;
+  border-radius: 0;
+  padding: 0.125rem;
+}

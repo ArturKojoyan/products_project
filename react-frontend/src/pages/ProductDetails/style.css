@@ -1,0 +1,20 @@
+.image-wrapper {
+  width: 412px;
+  height: 412px;
+
+  img {
+    width: 100%;
+    border: none;
+  }
+}
+
+.details {
+  display: flex;
+  gap: 1rem;
+}
+
+.details-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -1,0 +1,6 @@
+.error {
+  display: inline-block;
+  color: red;
+  height: 1.125rem;
+  font-size: 0.875rem;
+}
