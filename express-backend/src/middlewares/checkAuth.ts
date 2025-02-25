@@ -6,7 +6,6 @@ export interface CustomRequest extends Request {
 }
 
 function checkAuth(req: CustomRequest, res: Response, next: NextFunction) {
-  console.log(req.cookies, "req cookies");
   const token = req.cookies?.access_token; // Get token from cookies
 
   if (token) {
@@ -16,7 +15,6 @@ function checkAuth(req: CustomRequest, res: Response, next: NextFunction) {
         token,
         process.env.ACCESS_TOKEN_SECRET as string
       );
-      console.log("🚀 ~ checkAuth ~ authUser:", authUser)
       req.user = authUser;
       next();
     } catch (err) {

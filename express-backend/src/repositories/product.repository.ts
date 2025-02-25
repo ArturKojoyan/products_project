@@ -32,7 +32,6 @@ class ProductRepository implements IProductRepository {
         `SELECT * FROM products WHERE id = ?;`,
         [productId]
       );
-      console.log(rows, "found rows");
       return rows[0] ?? {};
     } catch (err) {
       console.log(err, "Error in getProductById service");
@@ -43,7 +42,6 @@ class ProductRepository implements IProductRepository {
   async getAllProducts(): Promise<Array<Product>> {
     try {
       const [rows] = await pool.query<[Product]>("SELECT * FROM products;");
-      console.log("🚀 ~ ProductRepository ~ getAllProducts ~ rows:", rows);
       return rows;
     } catch (err) {
       console.log(err, "Error in getAllProducts service");

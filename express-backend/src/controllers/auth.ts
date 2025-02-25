@@ -52,7 +52,6 @@ async function register(req: Request, res: Response) {
   }
 
   const user = await userRepo.getUserByEmail(email);
-  console.log("🚀 ~ register ~ user:", user);
   if (user) {
     res
       .status(400)

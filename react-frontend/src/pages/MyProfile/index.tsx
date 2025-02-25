@@ -62,7 +62,6 @@ const MyProfile = () => {
   }, [dispatch, user?.id]);
 
   async function handleProfileUpdate(payload: UserT) {
-    console.log("🚀 ~ handleProfileUpdate ~ payload:", payload);
     try {
       const { data } = await updateProfile(+payload.id, payload);
       dispatch(setUser(data.updatedUser));

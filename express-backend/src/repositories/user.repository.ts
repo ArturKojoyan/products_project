@@ -19,7 +19,6 @@ class UserRepository implements IUserRepository {
           VALUES (?,?);`,
         [email, password]
       );
-      console.log(data, "result");
       const userId = data.insertId;
       return await this.getUserById(userId);
     } catch (err) {
@@ -28,13 +27,11 @@ class UserRepository implements IUserRepository {
   }
 
   async getUserById(userId: number): Promise<User> {
-    console.log("🚀 ~ UserRepository ~ getUserById ~ userId:", userId);
     try {
       const [rows] = await pool.query<[User]>(
         `SELECT * FROM users WHERE id = ?;`,
         [userId]
       );
-      console.log(rows, "found user");
       return { ...rows[0], password: "" };
     } catch (err) {
       console.log(err, "Error in findUserById service");
@@ -48,7 +45,6 @@ class UserRepository implements IUserRepository {
         `SELECT * FROM users WHERE email = ?;`,
         [email.toLowerCase()] // first lowercase the email then search
       );
-      console.log(rows, "found user");
       return rows[0];
     } catch (err) {
       console.log(err, "Error in findUserByEmail service");
@@ -57,19 +53,16 @@ class UserRepository implements IUserRepository {
   }
 
   async update(userId: number, user: Partial<UserType>): Promise<User | any> {
-    console.log("🚀 ~ UserRepository ~ update ~ user:", user);
     try {
       const [rows] = await pool.query<ResultSetHeader>(
         "UPDATE users SET firstName = ?, lastName = ?, email = ?, dob = ? WHERE id = ?",
         [user.firstName, user.lastName, user.email, user.dob, userId]
       );
-      console.log("🚀 ~ UserRepository ~ update ~ rows:", rows);
 
       // Check if the update was successful
       if (rows.affectedRows > 0) {
         // Fetch the updated user data
         const user = await this.getUserById(userId);
-        console.log("🚀 ~ UserRepository ~ update ~ user:", user);
         return user;
       } else {
         console.error("Update failed or no rows affected");

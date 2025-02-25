@@ -45,7 +45,6 @@ export async function createUser(
       VALUES (?,?,?,?,?,?);`,
       [email, firstName, lastName, hashedPass, dob, photo]
     );
-    console.log(data, "result");
   } catch (err) {
     throw err;
   }

@@ -5,7 +5,6 @@ import type { CustomRequest } from "../middlewares/checkAuth";
 async function createProduct(req: CustomRequest, res: Response) {
   let { name, price, discount_price, description } = req.body;
   const { id: userId } = req.user;
-  console.log("🚀 ~ createProduct ~ userId:", userId);
 
   if (!userId) {
     res.status(403).json({ message: "Not authorized!" });
@@ -51,7 +50,6 @@ async function getProductById(req: CustomRequest, res: Response) {
 
 async function getAllProducts(req: CustomRequest, res: Response) {
   const { owner } = req.query;
-  console.log("🚀 ~ getAllProducts ~ owner:", owner);
   let products;
   try {
     if (owner) {
